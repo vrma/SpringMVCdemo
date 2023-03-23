@@ -134,4 +134,19 @@ public class MainController {
         return "redirect:/listar";
     }
 
+    @GetMapping("/detalles/{id}")
+    public String estudianteDetails(@PathVariable(name = "id") int id, Model model) {
+
+        Estudiante estudiante = estudianteService.findById(id);
+        List<Telefono> telefonos = telefonoService.findByEstudiante(estudiante);
+
+        List<String> numerosTelefono = telefonos.stream()
+               .map(t -> t.getNumero())
+               .toList();
+               
+        model.addAttribute("telefonos", numerosTelefono);
+        model.addAttribute("estudiante", estudiante);
+
+        return "views/estudianteDetalles";
+    }
 }
