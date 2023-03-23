@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="facultades")
+@Table(name = "facultades")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +30,6 @@ public class Facultad implements Serializable {
     private int id;
     private String nombre;
 
-    @OneToMany(fetch = FetchType.EAGER, 
-       cascade = CascadeType.PERSIST, mappedBy = "facultad")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "facultad")
     private List<Estudiante> estudiantes;
 }
