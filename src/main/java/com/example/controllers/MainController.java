@@ -1,5 +1,8 @@
 package com.example.controllers;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.entities.Estudiante;
@@ -74,9 +78,39 @@ public class MainController {
 
     @PostMapping("/altaModificacionEstudiante")
     public String altaEstudiante(@ModelAttribute Estudiante estudiante,
-            @RequestParam(name = "numerosTelefonos") String telefonosRecibidos) {
+            @RequestParam(name = "numerosTelefonos") String telefonosRecibidos,
+              @RequestParam(name = "imagen") MultipartFile imagen) {
 
         LOG.info("Telefonos recibidos: " + telefonosRecibidos);
+
+        if(!imagen.isEmpty()) {
+            try {
+                
+                // Ruta relativa de donde voy a almacenar el archivo de
+                // imagen
+                Path rutaRelativa = Paths.get("src/main/resources/static/images");
+
+                // Necesitamos la ruta absoluta
+                String rutaAbsoluta = rutaRelativa.toFile().getAbsolutePath();
+                
+                byte[] imagenEnBytes = imagen.getBytes();
+
+                // Ruta Completa
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "/" 
+                         + imagen.getOriginalFilename());
+
+                // Guardamos la imagen en el file system
+                Files.write(rutaCompleta, imagenEnBytes);
+
+                // Asociar la imagen con el objeto estudiante que se va 
+                // a guardar
+                estudiante.setFoto(imagen.getOriginalFilename());
+
+
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
 
         estudianteService.save(estudiante);
 

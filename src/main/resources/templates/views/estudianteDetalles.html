@@ -10,6 +10,8 @@
     <h1 th:text="'Detalles del Estudiante' + ' ' +  
                  ${estudiante.nombre} + ${estudiante.primerApellido}"></h1>
 
+    <img alt="Imagen de un gato" th:src="@{/images/}+${estudiante.foto}">
+
     <div>
         Telefonos:     
         <ul>
