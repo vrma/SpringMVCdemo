@@ -88,10 +88,12 @@ public class MainController {
                 
                 // Ruta relativa de donde voy a almacenar el archivo de
                 // imagen
-                Path rutaRelativa = Paths.get("src/main/resources/static/images");
+                // Path rutaRelativa = Paths.get("src/main/resources/static/images");
 
                 // Necesitamos la ruta absoluta
-                String rutaAbsoluta = rutaRelativa.toFile().getAbsolutePath();
+                // String rutaAbsoluta = rutaRelativa.toFile().getAbsolutePath();
+
+                String rutaAbsoluta = "/home/vrmachado/recursos/images";
                 
                 byte[] imagenEnBytes = imagen.getBytes();
 
